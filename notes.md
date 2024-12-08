@@ -62,6 +62,10 @@ Here’s the **folder structure** for the updated application with **Prisma**, *
 
 This structure keeps authentication logic separate from UI code and ensures that the application is modular and maintainable.
 
+## Questions
+1. How to use `useRouter` & `usePathname`, `useSearchParams` - in Next.js?
+1. "use client" vs "use server" - in Next.js?
+
 
 ##  References
 1. https://www.prisma.io/docs/getting-started/quickstart-sqlite
