@@ -65,6 +65,9 @@ This structure keeps authentication logic separate from UI code and ensures that
 ## Questions
 1. How to use `useRouter` & `usePathname`, `useSearchParams` - in Next.js?
 1. "use client" vs "use server" - in Next.js?
+1. Layout.tsx
+1. error.tsx
+1. How to use Prisma with Next.js?
 
 
 ##  References
