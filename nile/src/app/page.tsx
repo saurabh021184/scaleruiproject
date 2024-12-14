@@ -14,9 +14,9 @@ export default function Home() {
           <ProductGrid />
         </div>
         <div className="flex gap-4 items-center flex-col sm:flex-row w-full"></div>
-        <footer className="flex gap-6 flex-wrap items-center justify-center p-4">
+        {/* <footer className="flex gap-6 flex-wrap items-center justify-center p-4">
           TODO
-        </footer>
+        </footer> */}
       </div>
     </div>
   );

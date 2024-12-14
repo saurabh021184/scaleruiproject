@@ -1,5 +1,6 @@
 // app/layout.tsx
 import "../styles/globals.css";
+import Footer from "../components/Footer";
 
 export const metadata = {
   title: "Next.js UI Demo",
@@ -13,7 +14,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-gray-100">{children}</body>
+      <body className="min-h-screen bg-gray-100">{children}
+      <Footer />
+      </body>
+      
     </html>
   );
 }
