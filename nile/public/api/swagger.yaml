@@ -1,0 +1,225 @@
+openapi: 3.0.0
+info:
+  title: Retail Website API
+  description: API documentation for the retail website.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  # /api/users/signup:
+  #   post:
+  #     summary: Sign up a new user
+  #     requestBody:
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             type: object
+  #             properties:
+  #               username:
+  #                 type: string
+  #               email:
+  #                 type: string
+  #               password:
+  #                 type: string
+  #     responses:
+  #       201:
+  #         description: User created successfully
+  /api/users/login:
+    post:
+      summary: Login a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: JWT token for authentication
+  /api/users/profile:
+    get:
+      summary: Get user profile
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: User details
+  /api/products:
+    get:
+      summary: Get all products
+      parameters:
+        - name: category
+          in: query
+          description: Filter products by category
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Pagination page number
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: Pagination limit per page
+          schema:
+            type: integer
+      responses:
+        200:
+          description: List of products
+  /api/products/{id}:
+    get:
+      summary: Get product details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Details of a specific product
+  /api/cart:
+    post:
+      summary: Add product to cart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                productId:
+                  type: string
+                quantity:
+                  type: integer
+      responses:
+        200:
+          description: Product added to cart
+    get:
+      summary: Get cart items
+      responses:
+        200:
+          description: List of cart items
+    delete:
+      summary: Remove product from cart
+      parameters:
+        - name: productId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Product removed from cart
+  # /api/orders:
+  #   post:
+  #     summary: Place an order
+  #     requestBody:
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             type: object
+  #             properties:
+  #               cartId:
+  #                 type: string
+  #               paymentMethod:
+  #                 type: string
+  #               shippingAddress:
+  #                 type: string
+  #     responses:
+  #       201:
+  #         description: Order placed successfully
+    # get:
+    #   summary: Get all orders
+    #   responses:
+    #     200:
+    #       description: List of orders
+  # /api/orders/{id}:
+  #   get:
+  #     summary: Get order details
+  #     parameters:
+  #       - name: id
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: string
+  #     responses:
+  #       200:
+  #         description: Order details
+  /api/payment:
+    post:
+      summary: Initiate payment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                orderId:
+                  type: string
+                amount:
+                  type: number
+      responses:
+        200:
+          description: Payment initiated
+  # /api/search:
+  #   get:
+  #     summary: Search products
+  #     parameters:
+  #       - name: query
+  #         in: query
+  #         description: Search query string
+  #         schema:
+  #           type: string
+  #       - name: category
+  #         in: query
+  #         description: Filter products by category
+  #         schema:
+  #           type: string
+  #       - name: page
+  #         in: query
+  #         description: Pagination page number
+  #         schema:
+  #           type: integer
+  #       - name: limit
+  #         in: query
+  #         description: Pagination limit per page
+  #         schema:
+  #           type: integer
+  #     responses:
+  #       200:
+  #         description: Search results
+  # /api/wishlist:
+  #   post:
+  #     summary: Add product to wishlist
+  #     requestBody:
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             type: object
+  #             properties:
+  #               productId:
+  #                 type: string
+  #     responses:
+  #       200:
+  #         description: Product added to wishlist
+  #   get:
+  #     summary: Get wishlist items
+  #     responses:
+  #       200:
+  #         description: List of wishlist items
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

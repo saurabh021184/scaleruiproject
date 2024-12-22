@@ -15,7 +15,6 @@ const Header = () => {
             </div>
           </div>
         </Link>
-
         {/* Sidebar Button and "All" aligned together */}
         <button className="text-xl">&#9776;</button>
         <span className="text-lg font-bold">All</span>

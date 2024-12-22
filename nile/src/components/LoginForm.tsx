@@ -2,19 +2,46 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation"; // To handle page redirection
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [error, setError] = useState<string | null>(null); // To handle errors
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log({ username, password, rememberMe });
+    setError(null); // Reset previous errors
+    try {
+      // Send login request to the API
+      const response = await fetch("/api/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      if (response.ok) {
+        // If login is successful, redirect to profile page
+        router.push("/profile");
+      } else {
+        // If login fails, show error message
+        const data = await response.json();
+        setError(data.message || "Something went wrong");
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+      setError("An unexpected error occurred");
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      {error && <div className="text-red-500 text-center">{error}</div>}
       <div>
         <label htmlFor="username" className="block text-gray-700 mb-1">
           Username
