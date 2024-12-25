@@ -1,11 +1,8 @@
-import SwaggerUI from "swagger-ui-react";
-import "swagger-ui-react/swagger-ui.css";
-import React from "react";
+import SwaggerUI from 'swagger-ui-react';
+import 'swagger-ui-react/swagger-ui.css';
 
-const ApiDocs: React.FC = () => {
-  console.log("get the swagger page");
-  return <SwaggerUI url="/api/swagger.yaml" />;
-  // return <SwaggerUI url="/swagger.json" />;
+const ApiDocs = () => {
+  return <SwaggerUI url="/api-doc/swagger.yaml" />;
 };
 
 export default ApiDocs;

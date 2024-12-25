@@ -1,0 +1,55 @@
+erDiagram
+    USER {
+        int id
+        string username
+        string password
+        string email
+        datetime created_at
+    }
+    PRODUCT {
+        int id
+        string name
+        string description
+        float cost
+        string image_url
+    }
+    ORDER {
+        int id
+        int userid
+        datetime order_date
+    }
+    ORDERDETAIL {
+        int id
+        int orderid
+        int productid
+        int quantity
+        float total_cost
+        datetime delivery_date
+    }
+    CART {
+        int id
+        int userid
+    }
+    CARTITEM {
+        int id
+        int cartid
+        int productid
+        int quantity
+        float total_cost
+        datetime delivery_date
+        string shipping_address
+    }
+    PAYMENT {
+        int id
+        int userid
+        float amount
+        datetime payment_date
+    }
+
+    USER ||--o{ ORDER : "places"
+    ORDER ||--o{ ORDERDETAIL : "contains"
+    ORDERDETAIL ||--|| PRODUCT : "refers"
+    USER ||--o{ CART : "has"
+    CART ||--o{ CARTITEM : "contains"
+    CARTITEM ||--|| PRODUCT : "refers"
+    USER ||--o{ PAYMENT : "makes"
