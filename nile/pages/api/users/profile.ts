@@ -1,14 +1,14 @@
+// src/pages/api/users/profile.ts
 import { NextApiRequest, NextApiResponse } from 'next';
-import cookie from 'cookie';
+import { UserHandler } from '../../../handlers/user';
+
+const userHandler = new UserHandler();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    // Parse cookies
-    const cookies = cookie.parse(req.headers.cookie || '');
-    if (cookies.userSession === 'authenticated') {
-         // Return the profile data if the user is authenticated
-         return res.status(200).json({ message: 'Welcome to the profile page' });
-    } else {
-          // If session is invalid or missing, return an unauthorized response
-          return res.status(401).json({ message: 'Not authenticated' });
-    }
+  if (req.method === 'GET') {
+    await userHandler.handleProfile(req, res);
+  } else {
+    res.setHeader('Allow', ['GET']);
+    res.status(405).json({ message: `Method ${req.method} not allowed` });
+  }
 }
