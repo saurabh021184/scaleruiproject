@@ -1,6 +1,6 @@
 // src/repositories/user.repository.ts
 import prisma from '../prisma/prisma';
-import { AddressDTO } from '../dtos/user'; // Import the DTO
+import { AddressDTO, RecommendationsDTO } from '../dtos/user'; // Import the DTO
 
 export class UserRepository {
   async findUserByUsername(username: string) {
@@ -50,6 +50,40 @@ export class UserRepository {
       return addressDTO;
     } catch (error) {
       console.error('Error fetching address:', error);
+      throw new Error('Database error');
+    }
+  }
+
+  public async getRecommendationsByUserId(userId: number): Promise<RecommendationsDTO[] | null> {
+    try {
+      // Fetch the address data from the database
+      const recommendations = userId
+      ? await prisma.userSpecificProducts.findMany({
+          where: { userId: Number(userId) },
+          orderBy: { id: "asc" },
+          take: 4,
+        })
+      : await prisma.mainProducts.findMany({
+          orderBy: { id: "asc" },
+          take: 4,
+        });
+      // If the address is not found, return null
+
+      // If no recommendations are found, return an empty array
+      if (!recommendations || recommendations.length === 0) {
+        return null;
+      }
+
+      // Map the fetched data to AddressDTO
+      const recommendationsDTO: RecommendationsDTO[] = recommendations.map((recommandation) => ({
+        id: recommandation.id,
+        name: recommandation.name,
+        price: recommandation.price,
+      }));
+
+      return recommendationsDTO;
+    } catch (error) {
+      console.error('Error fetching recommendations:', error);
       throw new Error('Database error');
     }
   }

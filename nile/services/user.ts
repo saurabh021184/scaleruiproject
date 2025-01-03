@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { UserRepository } from '../repositories/user';
-import { LoginDTO, SessionDTO } from '../dtos/user';
-import { AddressDTO } from '../dtos/user';
+import { LoginDTO, SessionDTO, RecommendationsDTO, AddressDTO } from '../dtos/user';
 
 const SECRET_KEY = process.env.SECRET_KEY || 'your-secret-key'; // Replace with an env variable in production
 
@@ -56,4 +55,21 @@ export class UserService {
     
         return addressDTO;
       }
+
+    async getRecommendationsByUserId(userId: number): Promise<RecommendationsDTO[] | null> {
+      const recommendations = await this.userRepository.getRecommendationsByUserId(userId);
+  
+      if (!recommendations) {
+        return null;
+      }
+  
+      // Map the data to AddressDTO
+      const recommendationsDTO: RecommendationsDTO[] = recommendations.map((recommendation) => ({
+        id: recommendation.id,
+        name: recommendation.name,
+        price: recommendation.price,
+      }));
+  
+      return recommendationsDTO;
+    }
   }

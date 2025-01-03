@@ -1,7 +1,7 @@
 // src/handlers/user.handler.ts
 import { NextApiRequest, NextApiResponse } from 'next';
 import { UserService } from '../services/user';
-import { LoginDTO, SessionDTO, AddressDTO } from '../dtos/user';
+import { LoginDTO, SessionDTO, AddressDTO, RecommendationsDTO } from '../dtos/user';
 import cookie from 'cookie';
 
 export class UserHandler {
@@ -80,6 +80,26 @@ export class UserHandler {
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: 'Error fetching address' });
+    }
+  }
+
+  async handleRecommendation(req: NextApiRequest, res: NextApiResponse) {
+    try {
+      const { userId } = req.body; // Get userId from query parameter
+      // if (!userId) {
+      //   return res.status(400).json({ message: 'userId body parameter is required' });
+      // }
+
+      const recommendations: RecommendationsDTO[] | null = await this.userService.getRecommendationsByUserId(Number(userId));
+
+      if (!recommendations) {
+        return res.status(404).json({ message: 'Reccommendations not found' });
+      }
+
+      return res.status(200).json(recommendations);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Error fetching recommendations' });
     }
   }
 }

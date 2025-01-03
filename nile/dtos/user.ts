@@ -14,3 +14,9 @@ export interface AddressDTO {
     state: string;
     zip: string;
 }
+
+export interface RecommendationsDTO {
+  id: number;
+  name: string;
+  price: number;
+};
