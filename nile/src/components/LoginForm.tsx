@@ -80,9 +80,13 @@ const LoginForm = () => {
           />
           Remember me
         </label>
-        <a href="#" className="text-blue-500 hover:underline">
+        <button
+          type="button"
+          onClick={() => router.push("/forgot-password")}
+          className="text-blue-500 hover:underline"
+        >
           Forgot Password?
-        </a>
+        </button>
       </div>
 
       <button

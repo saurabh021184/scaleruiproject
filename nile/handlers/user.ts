@@ -1,7 +1,7 @@
 // src/handlers/user.handler.ts
 import { NextApiRequest, NextApiResponse } from 'next';
 import { UserService } from '../services/user';
-import { LoginDTO, SessionDTO, AddressDTO, RecommendationsDTO } from '../dtos/user';
+import { LoginDTO, SessionDTO, AddressDTO, RecommendationsDTO, ResetPasswordDTO } from '../dtos/user';
 import cookie from 'cookie';
 
 export class UserHandler {
@@ -100,6 +100,24 @@ export class UserHandler {
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: 'Error fetching recommendations' });
+    }
+  }
+
+  async handleResetPassword(req: NextApiRequest, res: NextApiResponse) {
+    try {
+
+      const resetPasswordDTO: ResetPasswordDTO = req.body;
+      const { username, password } = req.body; // Get username from query parameter
+      if ((!username) || (!password)) {
+        return res.status(400).json({ message: 'Username is required and password required' });
+      }
+
+      const response = await this.userService.resetPassword(resetPasswordDTO);
+
+      return res.status(200).json({ message: `${response}` });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Error resetting password' });
     }
   }
 }

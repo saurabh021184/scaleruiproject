@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { UserRepository } from '../repositories/user';
-import { LoginDTO, SessionDTO, RecommendationsDTO, AddressDTO } from '../dtos/user';
+import { LoginDTO, SessionDTO, RecommendationsDTO, AddressDTO, ResetPasswordDTO } from '../dtos/user';
 
 const SECRET_KEY = process.env.SECRET_KEY || 'your-secret-key'; // Replace with an env variable in production
 
@@ -71,5 +71,14 @@ export class UserService {
       }));
   
       return recommendationsDTO;
+    }
+
+
+    async resetPassword(resetPasswordDTO: ResetPasswordDTO) {
+  
+      // Fetch user from the database
+      const response = await this.userRepository.resetPassword(resetPasswordDTO);
+  
+      return response;
     }
   }

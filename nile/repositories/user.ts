@@ -1,6 +1,6 @@
 // src/repositories/user.repository.ts
 import prisma from '../prisma/prisma';
-import { AddressDTO, RecommendationsDTO } from '../dtos/user'; // Import the DTO
+import { AddressDTO, RecommendationsDTO, ResetPasswordDTO } from '../dtos/user'; // Import the DTO
 
 export class UserRepository {
   async findUserByUsername(username: string) {
@@ -85,6 +85,33 @@ export class UserRepository {
     } catch (error) {
       console.error('Error fetching recommendations:', error);
       throw new Error('Database error');
+    }
+  }
+
+  public async resetPassword(resetPasswordDTO: ResetPasswordDTO) {
+    try {
+      // Check if the user exists
+      const { username, password } = resetPasswordDTO;
+      const user = await prisma.user.findUnique({
+        where: { username },
+      });
+  
+      if (!user) {
+        throw new Error(`username not found`);
+      }
+  
+      // Reset password (e.g., set to a temporary one or send an email)
+      // const tempPassword = "temp1234"; // Example: Generate a temp password or token
+      await prisma.user.update({
+        where: { username },
+        data: { password: password },
+      });
+  
+      // Return success
+      return ("Password reset successful. Use the temporary password to log in.");
+    } catch (error) {
+      console.error("Error resetting password:", error);
+      throw new Error("Internal Server Error");
     }
   }
 }

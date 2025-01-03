@@ -20,3 +20,9 @@ export interface RecommendationsDTO {
   name: string;
   price: number;
 };
+
+export interface ResetPasswordDTO {
+  username: string;
+  password: string;
+}
+
