@@ -1,22 +1,18 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import { products as defaultProducts } from "@/utils/productsData";
 import Cookies from "js-cookie";
+import Link from "next/link";
 
 const ProductGrid = () => {
   const [recommendedProducts, setRecommendedProducts] = useState(defaultProducts.slice(0, 4));
-
-  console.log('entering use Effect')
 
   useEffect(() => {
     const fetchRecommendations = async () => {
       const token = Cookies.get("token");
       const userId = Cookies.get("userId");
 
-      console.log(`token ${token}, userID ${userId}`)
-
-      // if (token && userId) {
       try {
         const response = await fetch("/api/users/recommendations", {
           method: "POST",
@@ -35,7 +31,6 @@ const ProductGrid = () => {
       } catch (error) {
         console.error("Error fetching recommendations:", error);
       }
-      // }
     };
 
     fetchRecommendations();
@@ -43,17 +38,16 @@ const ProductGrid = () => {
 
   return (
     <div className="p-4 bg-blue-100 rounded-lg">
-      <h2 className="text-lg font-semibold mb-4">
-        Recommendations of products
-      </h2>
+      <h2 className="text-lg font-semibold mb-4">Recommendations of products</h2>
       <div className="grid grid-cols-4 gap-4">
         {recommendedProducts.map((product) => (
-          <div
+          <Link
             key={product.id}
+            href={`/products/${product.id}`}
             className="w-20 h-20 bg-white rounded-lg shadow-md flex items-center justify-center"
           >
             {product.name}
-          </div>
+          </Link>
         ))}
       </div>
     </div>
