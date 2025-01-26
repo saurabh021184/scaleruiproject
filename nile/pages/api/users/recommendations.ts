@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { UserHandler } from '../../../handlers/user';
 
-const SECRET_KEY = 'your-secret-key'; // Replace with an environment variable in production
+// const SECRET_KEY = 'your-secret-key'; // Replace with an environment variable in production
 
 const userHandler = new UserHandler();
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

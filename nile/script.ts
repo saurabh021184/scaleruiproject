@@ -18,13 +18,15 @@ async function retrieve_user_by_id(id: number) {
 }
 
 // create user
-async function create_user(name: string, email: string) {
+async function create_user(name: string, email: string, password: string, token: string) {
   return await prisma.user.create({
     data: {
-      name: name,
-      email: email
+      username: name,
+      email: email,
+      password: password,
+      token: token, // Ensure you are passing the token correctly
     }
-  })
+  });
 }
 
 async function main() {

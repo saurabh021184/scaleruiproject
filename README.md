@@ -126,3 +126,7 @@ npx prisma generate
 
 Run prisma studio also
 npx prisma studio
+
+npm install razorpay
+
+docker build -t your-demo-image .

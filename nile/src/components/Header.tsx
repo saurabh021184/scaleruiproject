@@ -2,7 +2,7 @@
 "use client"
 import { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
-import Logo from "./Logo";
+// import Logo from "./Logo";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";

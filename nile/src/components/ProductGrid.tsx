@@ -10,7 +10,7 @@ const ProductGrid = () => {
 
   useEffect(() => {
     const fetchRecommendations = async () => {
-      const token = Cookies.get("token");
+      // const token = Cookies.get("token");
       const userId = Cookies.get("userId");
 
       try {
