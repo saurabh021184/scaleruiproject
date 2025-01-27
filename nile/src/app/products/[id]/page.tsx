@@ -109,7 +109,7 @@ export default function ProductPage() {
           </div>
           <div className="md:col-span-2 flex flex-col gap-4">
           <ProductDetails />
-            <AddToCartForm />
+          <AddToCartForm productId={product.id} price={product.price} />
           </div>
         </div>
       </div>

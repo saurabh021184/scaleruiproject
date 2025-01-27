@@ -1,13 +1,23 @@
-// components/AddToCartForm.tsx
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-const AddToCartForm = () => {
+interface AddToCartFormProps {
+  productId: number;
+  price: number;
+}
+
+const AddToCartForm: React.FC<AddToCartFormProps> = ({ productId, price }) => {
   const [quantity, setQuantity] = useState(1);
+  const router = useRouter();
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setQuantity(parseInt(e.target.value, 10));
+  };
+
+  const handleAddToCart = () => {
+    router.push(`/cart?productId=${productId}&price=${price}&quantity=${quantity}`);
   };
 
   return (
@@ -29,7 +39,10 @@ const AddToCartForm = () => {
           ))}
         </select>
       </div>
-      <button className="bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">
+      <button
+        className="bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
+        onClick={handleAddToCart}
+      >
         Add to Cart
       </button>
       <button className="bg-green-500 text-white py-2 rounded-md hover:bg-green-600">
