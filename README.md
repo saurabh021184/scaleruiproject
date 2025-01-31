@@ -130,3 +130,5 @@ npx prisma studio
 npm install razorpay
 
 docker build -t your-demo-image .
+
+helm install retail-website-1 .

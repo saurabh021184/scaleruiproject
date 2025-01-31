@@ -1,13 +1,14 @@
+## templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-webapp
+  name: nextjs-webapp
   labels:
-    app: {{ .Chart.Name }}
+    app: nextjs-webapp
 spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: 80
+      targetPort: 3000
   selector:
-    app: {{ .Chart.Name }}
+    app: nextjs-webapp

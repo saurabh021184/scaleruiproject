@@ -74,8 +74,13 @@ export class UserRepository {
         return null;
       }
 
-      // Map the fetched data to AddressDTO
-      const recommendationsDTO: RecommendationsDTO[] = recommendations.map((recommandation) => ({
+      interface Recommendation {
+        id: number;
+        name: string;
+        price: number;
+      }
+      
+      const recommendationsDTO: RecommendationsDTO[] = recommendations.map((recommandation: Recommendation) => ({
         id: recommandation.id,
         name: recommandation.name,
         price: recommandation.price,
