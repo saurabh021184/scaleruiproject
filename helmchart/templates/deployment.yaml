@@ -1,0 +1,26 @@
+## templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextjs-webapp
+  labels:
+    app: nextjs-webapp
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: nextjs-webapp
+  template:
+    metadata:
+      labels:
+        app: nextjs-webapp
+    spec:
+      containers:
+        - name: nextjs-webapp
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: "production"

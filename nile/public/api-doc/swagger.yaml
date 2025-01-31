@@ -1,0 +1,365 @@
+openapi: 3.0.0
+info:
+  title: Retail Website API
+  description: API documentation for the retail website.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  # /api/users/signup:
+  #   post:
+  #     summary: Sign up a new user
+  #     requestBody:
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             type: object
+  #             properties:
+  #               username:
+  #                 type: string
+  #               email:
+  #                 type: string
+  #               password:
+  #                 type: string
+  #     responses:
+  #       201:
+  #         description: User created successfully
+  /api/users/login:
+    post:
+      summary: Login a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: JWT token for authentication
+  /api/users/resetpassword/{id}:
+    post:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      summary: Reset password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                newpassword:
+                  type: string
+      responses:
+        200:
+          description: JWT token for authentication
+  /api/users/profile/{id}:
+    get:
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      summary: Get user profile
+      # security:
+      #   - bearerAuth: []
+      responses:
+        200:
+          description: User details
+          content:
+            application/json:
+              schema:
+                properties:
+                  orderhistory:
+                    type: array
+                    items:
+                      properties:
+                        orderid:
+                          type: integer
+                        orderdesciption:
+                          type: string
+                        deliverydate:
+                          type: string
+                          format: date-time
+                  yourreviews:
+                    type: array
+                    items:
+                      properties:
+                        orderid:
+                          type: integer
+                        reviews:
+                          type: string
+                  address:
+                    type: string
+  /api/search:
+    get:
+      summary: Full Text Search
+      parameters:
+        - name: text
+          in: query
+          description: Search for product
+          schema:
+            type: string
+      responses:
+        200:
+          description: Text Search response
+          content:
+            application/json:
+              schema:
+                properties:
+                  suggestion:
+                    type: array
+                    items:
+                      properties:
+                        productid:
+                          type: integer
+                        productname:
+                          type: string
+            
+  /api/products:
+    get:
+      summary: Get all products
+      parameters:
+        - name: category
+          in: query
+          description: Filter products by category
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Pagination page number
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: Pagination limit per page
+          schema:
+            type: integer
+      responses:
+        200:
+          description: List of products
+          content:
+            application/json:
+              schema:
+                properties:
+                  listproducts:
+                    type: array
+                    items:
+                      properties:
+                        productid:
+                          type: integer
+                        productname:
+                          type: string
+                        productcost:
+                          type: integer
+                
+  /api/products/{id}:
+    get:
+      summary: Get product details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Details of a specific product
+          content:
+            application/json:
+              schema:
+                properties:
+                  productname:
+                    type: string
+                  productdescription:
+                    type: string
+                  productimage:
+                      type: string
+                      format: binary
+  
+  /api/cart:
+    post:
+      summary: Add product to cart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                productitems:
+                  type: array
+                  items:
+                    properties:
+                      productid:
+                        type: integer
+                      totalitems:
+                        type: integer
+                      totalproductcost:
+                        type: integer
+      responses:
+        200:
+          description: Product added to cart
+  /api/cart/{userid}:
+    get:
+      parameters:
+        - name: userid
+          in: path
+          required: true
+          schema:
+            type: integer
+          
+      summary: Get cart items
+      responses:
+        200:
+          description: List of cart items
+          content:
+            application/json:
+              schema:
+                properties:
+                  cartitems:
+                    type: array
+                    items:
+                      properties:
+                        productid:
+                          type: integer
+                        productdescription:
+                          type: string
+                        productcost:
+                          type: integer
+                        productdeliverydate:
+                          type: string
+                          format: date-time
+                        shippingaddress:
+                          type: string
+                      
+    # delete:
+    #   summary: Remove product from cart
+    #   parameters:
+    #     - name: productId
+    #       in: query
+    #       required: true
+    #       schema:
+    #         type: string
+    #   responses:
+    #     200:
+    #       description: Product removed from cart
+  # /api/orders:
+  #   post:
+  #     summary: Place an order
+  #     requestBody:
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             type: object
+  #             properties:
+  #               cartId:
+  #                 type: string
+  #               paymentMethod:
+  #                 type: string
+  #               shippingAddress:
+  #                 type: string
+  #     responses:
+  #       201:
+  #         description: Order placed successfully
+    # get:
+    #   summary: Get all orders
+    #   responses:
+    #     200:
+    #       description: List of orders
+  # /api/orders/{id}:
+  #   get:
+  #     summary: Get order details
+  #     parameters:
+  #       - name: id
+  #         in: path
+  #         required: true
+  #         schema:
+  #           type: string
+  #     responses:
+  #       200:
+  #         description: Order details
+  /api/payment:
+    post:
+      summary: Initiate payment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userid:
+                  type: integer
+                amount:
+                  type: number
+      responses:
+        200:
+          description: Payment initiated
+  # /api/search:
+  #   get:
+  #     summary: Search products
+  #     parameters:
+  #       - name: query
+  #         in: query
+  #         description: Search query string
+  #         schema:
+  #           type: string
+  #       - name: category
+  #         in: query
+  #         description: Filter products by category
+  #         schema:
+  #           type: string
+  #       - name: page
+  #         in: query
+  #         description: Pagination page number
+  #         schema:
+  #           type: integer
+  #       - name: limit
+  #         in: query
+  #         description: Pagination limit per page
+  #         schema:
+  #           type: integer
+  #     responses:
+  #       200:
+  #         description: Search results
+  # /api/wishlist:
+  #   post:
+  #     summary: Add product to wishlist
+  #     requestBody:
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             type: object
+  #             properties:
+  #               productId:
+  #                 type: string
+  #     responses:
+  #       200:
+  #         description: Product added to wishlist
+  #   get:
+  #     summary: Get wishlist items
+  #     responses:
+  #       200:
+  #         description: List of wishlist items
+# components:
+#   securitySchemes:
+#     bearerAuth:
+#       type: http
+#       scheme: bearer
+#       bearerFormat: JWT
